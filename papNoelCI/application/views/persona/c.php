@@ -17,31 +17,6 @@
 		<option value="<?=$pais->id?>"><?=$pais->nombre?></option>
 		<?php endforeach;?>
 	</select>
-
-	<br/>
-	País residencia
-	<select name="idPaisReside">
-		<?php foreach ($paises as $pais):?>
-		<option value="<?=$pais->id?>"><?=$pais->nombre?></option>
-		<?php endforeach;?>
-	</select>
-
-	<br/>
-	Aficiones que le gustan
-	<select name="idsAficionGusta[]" multiple="multiple">
-		<?php foreach ($aficiones as $aficion):?>
-		<option value="<?=$aficion->id?>"><?=$aficion->nombre?></option>
-		<?php endforeach;?>
-	</select>
-	
-	<br/>
-	Aficiones que odia
-	<?php foreach ($aficiones as $aficion):?>
-		<input id="id-af-<?=$aficion->id?>" type="checkbox" name="idsAficionOdia[]" value="<?=$aficion->id?>"/>
-		<label for="id-af-<?=$aficion->id?>"><?=$aficion->nombre?></label>
-	<?php endforeach;?>	
-
-
 	<br/>
 	<input type="submit"/>
 </form>

@@ -17,13 +17,6 @@
 	</select>
 
 	<br/>
-	País residencia
-	<select name="idPaisReside">
-		<?php foreach ($paises as $pais):?>
-		<option value="<?=$pais->id?>" <?= $pais->id==$persona->reside_id ? 'selected="selected"' : ''?>><?=$pais->nombre?></option>
-		<?php endforeach;?>
-	</select>
-	<br/>
 	<input type="submit"/>
 </form>
 
