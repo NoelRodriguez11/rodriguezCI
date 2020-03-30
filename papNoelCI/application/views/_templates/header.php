@@ -2,6 +2,7 @@
 <?php if ($header['persona']!=null):?>
 	Hola <?=$header['persona']->nombre?>
 <?php else:?>
-	Debes hacer login para entrar
+		  <a href="<?=base_url()?>hdu/anonymous/registrar">Registro</a> /
+		  <a href="<?=base_url()?>hdu/anonymous/login">Login</a>
 <?php endif;?>
 </div>

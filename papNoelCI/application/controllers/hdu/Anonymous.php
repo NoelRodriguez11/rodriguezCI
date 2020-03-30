@@ -6,7 +6,6 @@ class Anonymous extends CI_Controller
     public function registrar()
     {
         $this->load->model('pais_model');
-        $this->load->model('aficion_model');
         $data['paises'] = $this->pais_model->getPaises();
         frame($this, '_hdu/anonymous/registrar', $data);
     }

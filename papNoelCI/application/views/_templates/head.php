@@ -12,7 +12,7 @@
 	<!-- <script src="<?=base_url()?>assets/js/popper.min.js" ></script>  -->
 	<script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
 	
-	<title>Mi título</title>
+	<title>CI - N.Rodríguez</title>
 </head>
 
 <body>
