@@ -23,33 +23,6 @@
 		<option value="<?=$pais->id?>" <?= $pais->id==$persona->reside_id ? 'selected="selected"' : ''?>><?=$pais->nombre?></option>
 		<?php endforeach;?>
 	</select>
-
-	<br/>
-	Aficiones que le gustan
-	<?php $gustaIds = []; 
-	foreach ($persona->ownGustaList as $gusta) { $gustaIds[] = $gusta->aficion_id;}
-	?>
-
-	<?php foreach ($aficiones as $aficion):?>
-		<input id="id-afg-<?=$aficion->id?>" type="checkbox" name="idsAficionGusta[]" value="<?=$aficion->id?>"
-		<?= in_array($aficion->id,$gustaIds)?'checked="checked"':''?>
-		/>
-		<label for="id-afg-<?=$aficion->id?>"><?=$aficion->nombre?></label>
-	<?php endforeach;?>	
-	
-	<br/>
-	Aficiones que odia
-	<?php $odiaIds = []; 
-	foreach ($persona->ownOdiaList as $odia) { $odiaIds[] = $odia->aficion_id;}
-	?>
-	<?php foreach ($aficiones as $aficion):?>
-		<input id="id-afo-<?=$aficion->id?>" type="checkbox" name="idsAficionOdia[]" value="<?=$aficion->id?>"
-		<?= in_array($aficion->id,$odiaIds)?'checked="checked"':''?>
-		/>
-		<label for="id-afo-<?=$aficion->id?>"><?=$aficion->nombre?></label>
-	<?php endforeach;?>	
-
-
 	<br/>
 	<input type="submit"/>
 </form>

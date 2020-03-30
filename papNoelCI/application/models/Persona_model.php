@@ -20,29 +20,15 @@ class Persona_model extends CI_Model
             $persona = R::dispense('persona');
             
             $paisNacimiento = R::load('pais', $idPaisNace);
-            $paisResidencia = R::load('pais', $idPaisReside);
+            //$paisResidencia = R::load('pais', $idPaisReside);
             
             $persona->nombre = $nombre;
             $persona->pwd = password_hash($pwd,PASSWORD_DEFAULT);
             $persona->nace = $paisNacimiento;
-            $persona->reside = $paisResidencia;
+            //$persona->reside = $paisResidencia;
 
             R::store($persona);
 
-            foreach ($idsAficionGusta as $idAficionGusta) {
-                $aficion = R::load('aficion', $idAficionGusta);
-                $gusta = R::dispense('gusta');
-                $gusta->persona = $persona;
-                $gusta->aficion = $aficion;
-                R::store($gusta);
-            }
-            foreach ($idsAficionOdia as $idAficionOdia) {
-                $aficion = R::load('aficion', $idAficionOdia);
-                $odia = R::dispense('odia');
-                $odia->persona = $persona;
-                $odia->aficion = $aficion;
-                R::store($odia);
-            }
         } else {
             $e = ($nombre == null ? new Exception("nulo") : new Exception("duplicado"));
             throw $e;
@@ -60,7 +46,7 @@ class Persona_model extends CI_Model
             
             $persona->nombre = $nombre;
             $persona->pwd = password_hash($pwd,PASSWORD_DEFAULT);
-            $persona->reside = $paisResidencia;
+            //$persona->reside = $paisResidencia;
             
             R::store($persona);
             
@@ -69,33 +55,15 @@ class Persona_model extends CI_Model
             throw $e;
         }
     }
-    public function actualizarPersona($id, $nombre, $idPaisNace, $idPaisReside, $idsAficionGusta, $idsAficionOdia)
+    public function actualizarPersona($id, $nombre, $idPaisNace)
     {
-        $ok = ($nombre != null && $idPaisNace != null && $idPaisReside != null);
+        $ok = ($nombre != null && $idPaisNace != null);
         if ($ok) {
             $persona = R::load('persona', $id);
             $persona->nombre = $nombre;
             $persona->nace_id = $idPaisNace;
-            $persona->reside_id = $idPaisReside;
-
-            $comunes = [];
-            foreach ($persona->ownGustaList as $gusta) {
-                if (! in_array($gusta->aficion_id, $idsAficionGusta)) {
-                    R::store($persona);
-                    R::trash($gusta);
-                } else {
-                    $comunes[] = $gusta->aficion_id;
-                }
-            }
-
-            foreach (array_diff($idsAficionGusta, $comunes) as $idGusta) {
-                $aficion = R::load('aficion', $idGusta);
-                $gusta = R::dispense('gusta');
-                $gusta->persona = $persona;
-                $gusta->aficion = $aficion;
-                R::store($persona);
-                R::store($gusta);
-            }
+            //$persona->reside_id = $idPaisReside;
+            
         } else {
             $e = ($nombre == null ? new Exception("nulo") : new Exception("duplicado"));
             throw $e;

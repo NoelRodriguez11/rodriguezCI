@@ -8,11 +8,9 @@ class Persona extends CI_Controller
         
         $this->load->model('persona_model');
         $this->load->model('pais_model');
-        $this->load->model('aficion_model');
         
         $data['persona'] = $this->persona_model->getPersonaById($id);
         $data['paises'] = $this->pais_model->getPaises();
-        $data['aficiones'] = $this->aficion_model->getAficiones();
         
         frame($this,'persona/u',$data);
         
@@ -25,11 +23,8 @@ class Persona extends CI_Controller
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $idPaisNace = isset($_POST['idPaisNace']) ? $_POST['idPaisNace'] : null;
         $idPaisReside = isset($_POST['idPaisReside']) ? $_POST['idPaisReside'] : null;
-        $idsAficionGusta = isset($_POST['idsAficionGusta'])?$_POST['idsAficionGusta']:[];
-        $idsAficionOdia = isset($_POST['idsAficionOdia'])?$_POST['idsAficionOdia']:[];
-        
         try {
-            $this->persona_model->actualizarPersona($id, $nombre,$idPaisNace,$idPaisReside,$idsAficionGusta,$idsAficionOdia);
+            $this->persona_model->actualizarPersona($id, $nombre,$idPaisNace,$idPaisReside);
             redirect(base_url() . 'persona/r');
         }
         catch (Exception $e) {
@@ -43,9 +38,7 @@ class Persona extends CI_Controller
     public function c()
     {
         $this->load->model('pais_model');
-        $this->load->model('aficion_model');
         $data['paises'] = $this->pais_model->getPaises();
-        $data['aficiones'] = $this->aficion_model->getAficiones();
         frame($this,'Persona/c',$data);
     }
 
@@ -57,11 +50,9 @@ class Persona extends CI_Controller
         $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : null;
         $idPaisNace = isset($_POST['idPaisNace']) ? $_POST['idPaisNace'] : null;
         $idPaisReside = isset($_POST['idPaisReside']) ? $_POST['idPaisReside'] : null;
-        $idsAficionGusta = isset($_POST['idsAficionGusta'])?$_POST['idsAficionGusta']:[];
-        $idsAficionOdia = isset($_POST['idsAficionOdia'])?$_POST['idsAficionOdia']:[];
         
         try {
-            $this->persona_model->crearPersona($nombre,$pwd,$idPaisNace,$idPaisReside,$idsAficionGusta,$idsAficionOdia);
+            $this->persona_model->crearPersona($nombre,$pwd,$idPaisNace,$idPaisReside);
             redirect(base_url() . 'persona/r');
         }
         catch (Exception $e) {

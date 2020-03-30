@@ -19,7 +19,7 @@ class Pais_model extends CI_Model
             $pais = R::dispense('pais');
             $pais->nombre = $nombre;
             $pais->alias('nace')->xownPersonaList = [];
-            $pais->alias('reside')->xownPersonaList = [];
+            //$pais->alias('reside')->xownPersonaList = [];
             R::store($pais);
         }
         else {
