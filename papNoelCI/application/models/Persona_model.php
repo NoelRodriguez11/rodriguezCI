@@ -13,24 +13,21 @@ class Persona_model extends CI_Model
         return R::findAll('persona');
     }
 
-    public function crearPersona($nombre, $pwd, $idPaisNace)
+    public function crearPersona($nombre, $pwd)
     {
-        $ok = ($nombre != null && $idPaisNace != null);
-        if ($ok) {
-            $persona = R::dispense('persona');
-            
-            $paisNacimiento = R::load('pais', $idPaisNace);
-            
-            $persona->nombre = $nombre;
-            $persona->pwd = password_hash($pwd,PASSWORD_DEFAULT);
-            $persona->nace = $paisNacimiento;
-
-            R::store($persona);
-
-        } else {
-            $e = ($nombre == null ? new Exception("nulo") : new Exception("duplicado"));
-            throw $e;
+        if ($nombre == null && $pwd == null){
+            throw new Exception("Nombre o contraseña nulos");
         }
+        if (R::findOne('persona', 'loginname=?', [$nombre]) != null){
+            throw new Exception("Nombre de usuario duplicado");
+        }
+        else {
+            $persona = R::dispense('persona');
+            $persona->nombre = $nombre;
+            $persona->pwd = password_hash($pwd, PASSWORD_DEFAULT);
+        }
+        return R::store('persona');
+        
     }
 
     public function registrarPersona($nombre, $pwd, $idPaisNace) {
@@ -39,8 +36,6 @@ class Persona_model extends CI_Model
 
         if ($ok) {
             $persona = R::dispense('persona');
-            
-            $paisNacimiento = R::load('pais', $idPaisNace);
             
             $persona->nombre = $nombre;
             $persona->pwd = password_hash($pwd,PASSWORD_DEFAULT);

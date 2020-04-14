@@ -3,20 +3,12 @@
 <h1>Nueva persona</h1>
 
 <form action="<?=base_url()?>persona/cPost" method="post">
-	<label for="idp">Nombre</label>
-	<input id="idp" type="text" name="nombre"/>
+	<label for="idp">Nombre de usuario</label>
+	<input id="idp" type="text" name="loginname" required="required"/>
 	<br/>
 	
 	<label for="id-pwd">Contraseña</label>
-	<input id="id-pwd" type="password" name="pwd"/>
-	<br/>
-
-	País nacimiento
-	<select name="idPaisNace">
-		<?php foreach ($paises as $pais):?>
-		<option value="<?=$pais->id?>"><?=$pais->nombre?></option>
-		<?php endforeach;?>
-	</select>
+	<input id="id-pwd" type="password" required="required" name="pwd"/>
 	<br/>
 	<input type="submit"/>
 </form>

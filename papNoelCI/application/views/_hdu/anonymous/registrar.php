@@ -21,7 +21,7 @@
 	<br/><br/>
 	
 	<label for="id-alt">Altura</label>
-	<input id="id-alt" type="number" name="altura" required="required"/>
+	<input id="id-alt" type="number" name="altura" min=0 max=400 required="required"/>
 	<br/>
 	
 	<label for="id-fnac">Fecha de Nacimiento</label>

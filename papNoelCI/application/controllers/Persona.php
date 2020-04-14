@@ -39,7 +39,8 @@ class Persona extends CI_Controller
     {
         $this->load->model('pais_model');
         $data['paises'] = $this->pais_model->getPaises();
-        frame($this,'Persona/c',$data);
+        //Esto es lo que muestra la vista del bean
+        frame($this,'persona/c',$data);
     }
 
     public function cPost()
