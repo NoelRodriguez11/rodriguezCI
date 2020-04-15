@@ -20,17 +20,20 @@
 	<input id="id-foto" type="file" name="foto" required="required"/>
 	<br/><br/>
 	
-	<label for="id-alt">Altura</label>
-	<input id="id-alt" type="number" name="altura" min=0 max=400 required="required"/>
+	<label for="id-alt">Altura (cm)</label>
+	<input id="id-alt" type="number" name="altura" value=170 min=0 max=400 required="required"/>
 	<br/>
 	
 	<label for="id-fnac">Fecha de Nacimiento</label>
-	<input id="id-fnac" type="date" name="fnac" required="required"/>
+	<input id="id-fnac" type="date" name="fnac" value="2001-02-20" required="required"/>
 	<br/>
 	
 	<label for="id-pais">País nacimiento</label>
-	<select id="id-pais">
+	<select id="id-pais" name="pais">
 	<option>----</option>
+	<?php foreach ($paises as $pais):?>
+	<option value="<?=$pais->id?>"><?=$pais->nombre?></option>
+	<?php endforeach;?>
 	</select>
 	<br/><br/>
 

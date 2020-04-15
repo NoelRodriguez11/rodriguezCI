@@ -1,7 +1,7 @@
 <div class="container">
 	<form action="<?=base_url()?>_hdu/anonymous/initPost" method="post">
 		<?php 
-		  if(! $vacia):
+		  if(!$vacia):
 		?>
 		<h1>BD no vacía</h1>
 		<h3>Introduce "admin" para borrar la BD</h3>

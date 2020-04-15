@@ -10,13 +10,17 @@ class Anonymous extends CI_Controller {
 
     public function registrarPost() {
         $this->load->model('persona_model');
-
+        
+        $loginname = isset($_POST['loginname']) ? $_POST['loginname'] : null;
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : null;
-        $idPaisReside = isset($_POST['idPaisReside']) ? $_POST['idPaisReside'] : null;
+        $foto = isset($_POST['foto']) ? $_POST['foto'] : null;
+        $altura = isset($_POST['altura']) ? $_POST['altura'] : null;
+        $fnac = isset($_POST['fnac']) ? $_POST['fnac'] : null;
+        $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
 
         try {
-            $this->persona_model->registrarPersona($nombre, $pwd, $idPaisReside);
+            $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $foto, $altura, $fnac, $pais);
             session_start();
             $_SESSION['_msg']['texto'] = "Usuario registrado con éxito";
             $_SESSION['_msg']['uri'] = '';
@@ -24,7 +28,7 @@ class Anonymous extends CI_Controller {
         } catch (Exception $e) {
             session_start();
             $_SESSION['_msg']['texto'] = $e->getMessage();
-            $_SESSION['_msg']['uri'] = 'persona/c';
+            $_SESSION['_msg']['uri'] = 'hdu/anonymous/registrar';
             redirect(base_url() . 'msg');
         }
     }

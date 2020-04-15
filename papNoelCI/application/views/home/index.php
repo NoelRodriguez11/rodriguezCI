@@ -4,7 +4,6 @@
 	<?php if($rol == 'auth'):?>
 	
 	<a href="<?=base_url()?>/persona/r"><button>Persona</button></a>
-	<a href="home/LogOut.php"><button>Log Out</button></a>
 	
 	<?php elseif ($rol == 'admin'): ?>
 	
