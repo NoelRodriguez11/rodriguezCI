@@ -50,6 +50,7 @@ class Anonymous extends CI_Controller {
             redirect(base_url());
         } catch (Exception $e) {
             PRG($e->getMessage());
+            //$e->getMessage(PRG('Ha ocurrido algun error', '/', 'danger'));
         }
     }
     
