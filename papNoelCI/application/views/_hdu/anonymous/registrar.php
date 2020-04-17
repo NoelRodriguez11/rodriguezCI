@@ -21,14 +21,14 @@
 	<br/><br/>
 	
 	<label for="id-alt">Altura (cm)</label>
-	<input id="id-alt" type="number" name="altura" value=170 min=0 max=400 required="required"/>
+	<input id="id-alt" type="number" name="altura" value=175 min=0 max=400 required="required"/>
 	<br/>
 	
 	<label for="id-fnac">Fecha de Nacimiento</label>
-	<input id="id-fnac" type="date" name="fnac" value="2001-02-20" required="required"/>
+	<input id="id-fnac" type="date" name="fnac" value="2000-02-29" required="required"/>
 	<br/>
 	
-	<label for="id-pais">País nacimiento</label>
+	<label for="id-pais">País de nacimiento</label>
 	<select id="id-pais" name="pais">
 	<option>----</option>
 	<?php foreach ($paises as $pais):?>
