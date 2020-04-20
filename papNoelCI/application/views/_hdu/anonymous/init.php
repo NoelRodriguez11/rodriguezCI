@@ -1,5 +1,5 @@
 <div class="container">
-	<form action="<?=base_url()?>_hdu/anonymous/initPost" method="post">
+	<form action="<?=base_url()?>anonymous/initPost" method="post">
 		<?php 
 		  if(!$vacia):
 		?>

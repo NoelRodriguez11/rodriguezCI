@@ -2,7 +2,7 @@
 
 <h1>Registro de nuevo usuario</h1>
 
-<form action="<?=base_url()?>hdu/anonymous/registrarPost" method="post">
+<form action="<?=base_url()?>anonymous/registrarPost" method="post">
 
 	<label for="id-login">Loginname</label>
 	<input id="id-login" type="text" name="loginname" required="required"/>
@@ -17,7 +17,7 @@
 	<br/>
 	
 	<label for="id-foto">Foto</label>
-	<input id="id-foto" type="file" name="foto" required="required"/>
+	<input id="id-foto" type="file" name="foto"/>
 	<br/><br/>
 	
 	<label for="id-alt">Altura (cm)</label>

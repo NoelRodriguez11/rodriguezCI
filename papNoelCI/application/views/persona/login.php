@@ -1,5 +1,5 @@
 <div class="container">
-	<form class="form" action="<?=base_url().'hdu/anonymous/loginPost'?>" method="post">
+	<form class="form" action="<?=base_url().'anonymous/loginPost'?>" method="post">
 		
 		<h1>Introduce tus credenciales</h1>
 	<label for="idnombre">Nombre de usuario</label>

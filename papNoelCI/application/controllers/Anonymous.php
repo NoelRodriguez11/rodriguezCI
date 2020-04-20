@@ -5,7 +5,7 @@ class Anonymous extends CI_Controller {
     public function registrar() {
         $this->load->model('pais_model');
         $data['paises'] = $this->pais_model->getPaises();
-        frame($this, '_hdu/anonymous/registrar', $data);
+        frame($this, 'persona/registrar', $data);
     }
 
     public function registrarPost() {
@@ -20,7 +20,16 @@ class Anonymous extends CI_Controller {
         $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
 
         try {
-            $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $foto, $altura, $fnac, $pais);
+            $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $altura, $fnac, $pais);
+//             $id = $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $altura, $fnac, $pais);
+            
+//             if($foto !=null && $foto['tmp_name']!=null) {
+//                 $extension = explode('.', $foto['name'])[1];
+//                 $carpeta = "assets/img/upload";
+//                 if(!copy($foto['tmp_name'], $carpeta . "persona-$id."  . $extension)) {
+//                     throw new Exception('Error al copiar la foto '. $foto['name']. ' a '.$carpeta);
+//                 }
+//             }
             session_start();
             $_SESSION['_msg']['texto'] = "Usuario registrado con éxito";
             $_SESSION['_msg']['uri'] = '';
@@ -28,13 +37,13 @@ class Anonymous extends CI_Controller {
         } catch (Exception $e) {
             session_start();
             $_SESSION['_msg']['texto'] = $e->getMessage();
-            $_SESSION['_msg']['uri'] = 'hdu/anonymous/registrar';
+            $_SESSION['_msg']['uri'] = 'anonymous/registrar';
             redirect(base_url() . 'msg');
         }
     }
 
     public function login() {
-        frame($this, '_hdu/anonymous/login');
+        frame($this, 'persona/login');
     }
 
     public function loginPost() {
@@ -85,8 +94,7 @@ class Anonymous extends CI_Controller {
             
             $data['msg'] = "Base de Datos Creada";
         }
-        frame($this, '_hdu/anonymous/registrar', $data);
+        frame($this, '_hdu/anonymous/initPost', $data);
     }
 }
-
 ?>
