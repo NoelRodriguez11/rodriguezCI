@@ -14,27 +14,43 @@ class Anonymous extends CI_Controller {
         $loginname = isset($_POST['loginname']) ? $_POST['loginname'] : null;
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : null;
-        $foto = isset($_POST['foto']) ? $_POST['foto'] : null;
+        $foto = isset($_FILES['foto']) ? $_FILES['foto'] : null;
         $altura = isset($_POST['altura']) ? $_POST['altura'] : null;
         $fnac = isset($_POST['fnac']) ? $_POST['fnac'] : null;
         $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
 
         try {
-            $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $altura, $fnac, $pais);
-//             $id = $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $altura, $fnac, $pais);
+            $ext_foto = null;
+            if ($foto != null && $foto['error'] == UPLOAD_ERR_OK) {
+                $name_and_ext = explode('.', $foto['name']);
+                $ext_foto = $name_and_ext[sizeof($name_and_ext) - 1];
+            }
             
-//             if($foto !=null && $foto['tmp_name']!=null) {
-//                 $extension = explode('.', $foto['name'])[1];
-//                 $carpeta = "assets/img/upload";
-//                 if(!copy($foto['tmp_name'], $carpeta . "persona-$id."  . $extension)) {
-//                     throw new Exception('Error al copiar la foto '. $foto['name']. ' a '.$carpeta);
-//                 }
-//             }
+            $this->load->model('persona_model');
+            $this->load->model('pais_model');
+           
+            if ($pais == 0) {$id = $this->persona_model->c($loginname, $pwd,$nombre, $altura, $fnac, null, $ext_foto);
+            }
+            
+            else {
+                $id = $this->persona_model->c($loginname, $pwd,$nombre, $altura, $fnac, $this->pais_model->getPaisById($pais), $ext_foto);
+            }
+            
+            
+            if($ext_foto != null) {
+                $path_img = 'assets/img/upload/';
+                $file_name = 'persona-' . $id . '.' . $ext_foto;
+                copy($foto['tmp_name'] , $path_img . $file_name);
+            }
+     
             session_start();
             $_SESSION['_msg']['texto'] = "Usuario registrado con éxito";
             $_SESSION['_msg']['uri'] = '';
             redirect(base_url() . 'msg');
-        } catch (Exception $e) {
+            
+        } 
+        
+        catch (Exception $e) {
             session_start();
             $_SESSION['_msg']['texto'] = $e->getMessage();
             $_SESSION['_msg']['uri'] = 'anonymous/registrar';
@@ -47,11 +63,11 @@ class Anonymous extends CI_Controller {
     }
 
     public function loginPost() {
-        $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
+        $loginname = isset($_POST['loginname']) ? $_POST['loginname'] : null;
         $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : null;
         $this->load->model('persona_model');
         try {
-            $persona = $this->persona_model->verificarLogin($nombre, $pwd);
+            $persona = $this->persona_model->verificarLogin($loginname, $pwd);
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }

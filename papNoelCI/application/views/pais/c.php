@@ -7,5 +7,6 @@
 	<input id="idp" type="text" name="nombre"/>
 	<input type="submit"/>
 </form>
+<a href="<?=base_url()?>pais/r"><button class="button">Volver</button></a>
  
  </div>

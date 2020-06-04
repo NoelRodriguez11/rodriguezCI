@@ -6,16 +6,24 @@
 <a href="<?=base_url()?>"><button>Volver</button></a>
 <table border="1">
 	<tr>
+		<th>Loginname</th>
 		<th>Nombre</th>
-		<th>Contraseña</th>
-		<th>País nacimiento</th>
+		<th>Foto</th>
+		<th>País de nacimiento</th>
 		<th>Acción</th>
 	</tr>
 	
 	<?php foreach ($personas as $persona): ?>
 		<tr>
+		<td><?= $persona->loginname?></td>
 		<td><?= $persona->nombre?></td>
-		<td><?= $persona->pwd?></td>
+		<td>
+			<?php if($persona->foto != null):?>
+			<img src="<?=base_url().'assets/img/upload/persona-'.$persona->id.'.'.$persona->foto?>" height="100" width="100"/>
+			<?php else: ?>
+			<img src="<?=base_url().'assets/img/upload/vacio.png'?>" height="100" width="100"/>
+			<?php endif;?>
+		</td>
 		<td><?= $persona->nace!=null?$persona->nace->nombre:'--'?></td>
 		<td>
 			<form action="<?=base_url()?>persona/dPost" method="post">

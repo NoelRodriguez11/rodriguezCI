@@ -8,13 +8,19 @@
 	<table class="table table-striped table-hover">
 		<tr>
 			<th>Nombre</th>
+			<th>Residentes</th>
 			<th>Acciones</th>
 		</tr>
 	
-	<?php foreach ($paises as $pais): ?>
+<?php foreach ($paises as $pais): ?>
 		<tr>
 			<td><?= $pais->nombre?></td>
+			
+			<td><?= sizeof($pais->alias('nace')->ownPersonaList)?></td>
+			
+			
 			<td>
+			<?php if(sizeof($pais->alias('nace')->ownPersonaList)==0):?>
 				<form action="<?=base_url()?>pais/dPost" method="post">
 					<input type="hidden" name="id" value="<?=$pais->id?>">
 					<button onclick="submit()">
@@ -22,6 +28,9 @@
 							width="20">
 					</button>
 				</form>
+			<?php endif;?>
+			
+				
 				<form action="<?=base_url()?>pais/u" method="get">
 					<input type="hidden" name="id" value="<?=$pais->id?>">
 					<button onclick="submit()">

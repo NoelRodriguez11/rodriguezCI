@@ -3,7 +3,7 @@
 		
 		<h1>Introduce tus credenciales</h1>
 	<label for="idnombre">Nombre de usuario</label>
-	<input class="form-control" id="idnombre" type="text" name="nombre"/>
+	<input class="form-control" id="idnombre" type="text" name="loginname"/>
 	<br/>
 	
 	<label for="idpwd">Contraseña</label>

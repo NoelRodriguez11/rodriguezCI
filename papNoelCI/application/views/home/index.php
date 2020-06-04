@@ -7,7 +7,12 @@
 	
 	<?php elseif ($rol == 'admin'): ?>
 	
-		<h1>Vista de administrador</h1>
+		<h2>Vista de administrador</h2>
+		
+		<a href="<?=base_url()?>/pais/r"><button>País</button></a>
+		<a href="<?=base_url()?>/persona/r"><button>Persona</button></a>
+		<a href="<?=base_url()?>/categoria/r"><button>Categoría</button></a>
+		<a href="<?=base_url()?>/producto/r"><button>Producto</button></a>
 	
 	<?php else:?>
 	

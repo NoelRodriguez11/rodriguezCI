@@ -22,7 +22,7 @@ class Persona extends CI_Controller
         $id = isset($_POST['id']) ? $_POST['id'] : null;
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $idPaisNace = isset($_POST['idPaisNace']) ? $_POST['idPaisNace'] : null;
-        $idPaisReside = isset($_POST['idPaisReside']) ? $_POST['idPaisReside'] : null;
+        
         try {
             $this->persona_model->actualizarPersona($id, $nombre,$idPaisNace,$idPaisReside);
             redirect(base_url() . 'persona/r');
@@ -69,6 +69,18 @@ class Persona extends CI_Controller
         $this->load->model('persona_model');
         $datos['personas'] = $this->persona_model->getPersonas();
         frame($this,'persona/r', $datos);
+    }
+    
+    public function dPost() {
+        
+        if(!isRolOK("admin")) {
+            PRG("Rol inadeacuado");
+        }
+        
+        $id = isset($_POST['id']) ? $_POST['id'] : null;
+        $this->load->model('persona_model');
+        $this->persona_model->borrarPersona($id);
+        redirect(base_url().'persona/r');
     }
 }
 ?>
