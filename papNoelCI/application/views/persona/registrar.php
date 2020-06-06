@@ -58,5 +58,6 @@
 
 	<input type="submit"/>
 </form>
+<a href="<?=base_url()?>"><button class="button">Volver</button></a>
 
 </div>

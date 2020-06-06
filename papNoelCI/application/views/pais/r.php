@@ -18,7 +18,6 @@
 			
 			<td><?= sizeof($pais->alias('nace')->ownPersonaList)?></td>
 			
-			
 			<td>
 			<?php if(sizeof($pais->alias('nace')->ownPersonaList)==0):?>
 				<form action="<?=base_url()?>pais/dPost" method="post">
@@ -29,8 +28,7 @@
 					</button>
 				</form>
 			<?php endif;?>
-			
-				
+	
 				<form action="<?=base_url()?>pais/u" method="get">
 					<input type="hidden" name="id" value="<?=$pais->id?>">
 					<button onclick="submit()">
@@ -42,4 +40,5 @@
 		</tr>
 	<?php endforeach;?>
 </table>
+
 </div>

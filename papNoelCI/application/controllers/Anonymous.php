@@ -29,11 +29,11 @@ class Anonymous extends CI_Controller {
             $this->load->model('persona_model');
             $this->load->model('pais_model');
            
-            if ($pais == 0) {$id = $this->persona_model->c($loginname, $pwd,$nombre, $altura, $fnac, null, $ext_foto);
+            if ($pais == -1) {$id = $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $ext_foto, $altura, $fnac, null);
             }
             
             else {
-                $id = $this->persona_model->c($loginname, $pwd,$nombre, $altura, $fnac, $this->pais_model->getPaisById($pais), $ext_foto);
+                $id = $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $ext_foto, $altura, $fnac, $this->pais_model->getPaisById($pais));
             }
             
             

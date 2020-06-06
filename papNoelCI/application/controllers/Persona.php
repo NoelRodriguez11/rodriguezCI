@@ -4,6 +4,11 @@ class Persona extends CI_Controller
 {
 
     public function u() {
+        
+        if(!isRolOK("admin")){
+            PRG("Rol inadecuado");
+        }
+        
         $id = isset($_GET['id'])?$_GET['id']:null;
         
         $this->load->model('persona_model');
@@ -17,43 +22,23 @@ class Persona extends CI_Controller
     }
     
     public function uPost() {
+        
+        if(!isRolOK("admin")){
+            PRG("Rol inadecuado");
+        }
+        
         $this->load->model('persona_model');
-        
-        $id = isset($_POST['id']) ? $_POST['id'] : null;
-        $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
-        $idPaisNace = isset($_POST['idPaisNace']) ? $_POST['idPaisNace'] : null;
-        
-        try {
-            $this->persona_model->actualizarPersona($id, $nombre,$idPaisNace,$idPaisReside);
-            redirect(base_url() . 'persona/r');
-        }
-        catch (Exception $e) {
-            session_start();
-            $_SESSION['_msg']['texto']=$e->getMessage();
-            $_SESSION['_msg']['uri']='persona/c';
-            redirect(base_url() . 'msg');
-        }
-    }
-    
-    public function c()
-    {
         $this->load->model('pais_model');
-        $data['paises'] = $this->pais_model->getPaises();
-        //Esto es lo que muestra la vista del bean
-        frame($this,'persona/c',$data);
-    }
-
-    public function cPost()
-    {
-        $this->load->model('persona_model');
-
+        
+        $id = isset($_POST['id']) ? $_POST['id']:null;
+        $loginname = isset($_POST['loginname']) ? $_POST['loginname'] : null;
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
-        $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : null;
-        $idPaisNace = isset($_POST['idPaisNace']) ? $_POST['idPaisNace'] : null;
-        $idPaisReside = isset($_POST['idPaisReside']) ? $_POST['idPaisReside'] : null;
+        $altura = isset($_POST['altura']) ? $_POST['altura'] : null;
+        $fnac = isset($_POST['fnac']) ? $_POST['fnac'] : null;
+        $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
         
         try {
-            $this->persona_model->crearPersona($nombre,$pwd,$idPaisNace,$idPaisReside);
+            $this->persona_model->actualizarPersona($id, $loginname, $nombre, $altura, $fnac, $pais);
             redirect(base_url() . 'persona/r');
         }
         catch (Exception $e) {
@@ -64,8 +49,7 @@ class Persona extends CI_Controller
         }
     }
 
-    public function r()
-    {
+    public function r() {
         $this->load->model('persona_model');
         $datos['personas'] = $this->persona_model->getPersonas();
         frame($this,'persona/r', $datos);

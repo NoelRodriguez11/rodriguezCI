@@ -9,30 +9,6 @@ class Persona_model extends CI_Model {
     public function getPersonas() {
         return R::findAll('persona');
     }
-    
-    public function c($loginname, $nombre, $pwd, $ext_foto, $altura, $fnac, $pais)
-    {
-        if ( $loginname == null || $pwd == null) {
-            throw new Exception("Loginname, nombre o password nulos");
-        }
-        
-        if (R::findOne('persona', 'loginname=?', [$loginname]) != null) {
-            throw new Exception("Loginname duplicado");
-        }
-        
-        $persona = R::dispense('persona');
-        
-        $persona->loginname = $loginname;
-        $persona->nombre = $nombre;
-        $persona->pwd = password_hash($pwd, PASSWORD_BCRYPT);
-        $persona->foto = $ext_foto;
-        $persona->altura = $altura;
-        $persona->fnac = $fnac;
-        $persona->pais = $pais;
-        
-        return R::store($persona);
-        
-    }
 
     public function crearPersona($loginname,$pwd) {
         
@@ -53,23 +29,31 @@ class Persona_model extends CI_Model {
         
     }
 
-    public function registrarPersona($loginname, $nombre, $pwd, $altura, $fnac, $pais, $paisVive) {
-        $ok = ($loginname != null && $nombre != null && $pwd != null && $altura != null && $fnac != null && $pais != null && 
-         R::findOne('persona','loginname=?',[$loginname])==null);
+    public function registrarPersona($loginname, $nombre, $pwd, $ext_foto, $altura, $fnac, $pais) {
+        $ok = ($loginname != null && $nombre != null && $pwd != null && $altura != null && $fnac != null && $pais != null && R::findOne('persona','loginname=?',[$loginname])==null);
 
         if ($ok) {
             $persona = R::dispense('persona');
             
+            $paisNacimiento = R::load('pais', $pais);
+            
             $persona->loginname = $loginname;
             $persona->nombre = $nombre;
             $persona->pwd = password_hash($pwd,PASSWORD_DEFAULT);
+            $persona->foto = $ext_foto;
             $persona->altura = $altura;
             $persona->fnac = $fnac;
-            $persona->pais = $pais;
+            $persona->nace = $paisNacimiento;
+            
+            $venta = R::dispense('venta');
+            $venta->fechaventa = date('Y-m-d H:i:s');
+            $venta -> ventaencurso = $persona;
+            R::store($venta);
+            
+            $persona->ventaencurso=$venta;
             
             R::store($persona);
-            
-        } 
+        }
         
         else {
             $e = (R::findOne('persona','loginname=?',[$loginname])!=null? new Exception("Duplicado") : new Exception("valores nulos"));
@@ -77,19 +61,26 @@ class Persona_model extends CI_Model {
         }
     }
     
-    public function actualizarPersona($id, $nombre, $pais) {
-        $ok = ($nombre != null && $pais != null);
-        if ($ok) {
-            $persona = R::load('persona', $id);
-            $persona->nombre = $nombre;
-            $persona->pais = $pais;
-            
-        } 
+    public function actualizarPersona($id,$loginname, $nombre, $altura, $fnac, $pais) {
         
-        else {
-            $e = ($nombre == null ? new Exception("nulo") : new Exception("duplicado"));
-            throw $e;
-        }
+        $ok = ($loginname != null && $nombre !=null && $altura != null && $fnac != null && $pais != null);
+        
+        if($ok) {
+                
+                $persona = R::load('persona', $id);
+                $persona->loginname = $loginname;
+                $persona->nombre = $nombre;
+                $persona->altura = $altura;
+                $persona->fnac = $fnac;
+                $persona->nace_id = $pais;
+                
+                R::store($persona);
+                
+            }
+            else {
+                $e = ($nombre == null ? new Exception("nulo") : new Exception("duplicado"));
+                throw $e;
+            }
     }
 
     public function verificarLogin($loginname, $pwd) {

@@ -11,20 +11,24 @@ class Producto_model extends CI_Model
         return R::findAll('producto','ORDER BY nombre ASC');
     }
     
-    public function crearProducto($nombre, $stock, $precio, $categoria) {
+    public function crearProducto($ext_foto, $nombre, $stock, $precio, $categoria) {
         
-        $producto = R::findOne('producto','nombre=?',[$nombre]);
-        $ok = ($producto==null && $nombre!=null);
+        $ok = ($nombre != null && $stock != null && $precio != null && $categoria != null && R::findOne('producto','nombre=?',[$nombre])==null);
+        
         if ($ok) {
             $producto = R::dispense('producto');
+            
+            $categoriaPertenece = R::load('categoria',$categoria);
+            
+            $producto->ext_foto = $ext_foto;
             $producto->nombre = $nombre;
-            $producto->stock = $nombre;
+            $producto->stock = $stock;
             $producto->precio = $precio;
-            $producto->categoria = $categoria;
+            $producto->categoria = $categoriaPertenece;
             R::store($producto);
         }
         else {
-            $e = ($nombre==null?new Exception("nulo"):new Exception("Nombre de categorÃ­a ya registrado, escoge otro"));
+            $e = (R::findOne('producto','nombre=?',[$nombre])!=null? new Exception("Duplicado") : new Exception("valores nulos"));
             throw $e;
         }
         
@@ -35,16 +39,21 @@ class Producto_model extends CI_Model
         return R::load('producto', $id);
     }
     
-    public function actualizarProducto($id, $nombre) {
-        $producto = R::findOne('producto','nombre=?',[$nombre]);
-        if ($nombre != null && $producto == null) {
+    public function actualizarProducto($id, $nombre, $stock, $precio, $categoria) {
+        
+        $ok = ($nombre != null && $stock != null && $precio != null && $categoria != null);
             
+        if ($ok) {
             $producto = R::load('producto', $id);
             $producto->nombre = $nombre;
+            $producto->stock = $stock;
+            $producto->precio = $precio;
+            $producto->categoria = $categoria;
+            
             R::store($producto);
             
         }
-        else if ($nombre != null && $producto =! null) {}
+
         else {
             $e = ($nombre == null ? new Exception("nulo") : new Exception("Nombre de producto ya registrado, escoge otro"));
             throw $e;

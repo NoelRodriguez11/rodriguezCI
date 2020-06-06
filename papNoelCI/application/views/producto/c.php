@@ -1,10 +1,20 @@
 <div class="container">
 	<h1>Nuevo Producto</h1>
-	<form action="<?=base_url()?>producto/cPost" method="post">
+	
+	<form action="<?=base_url()?>producto/cPost" class="form" method="post" enctype="multipart/form-data">
+
 		Nombre
 		<input type="text" name="nombre" autofocus="autofocus"/>
 		<br/>
 		
+		Stock
+		<input type="number" name="stock"  value=10 required/>
+		<br>
+	
+    	Precio
+    	<input type="number" name="precio" min=0 max=1000 value=50 required/>
+    	<br>
+    		
 		<script>
 		$(window).on("load",(function() {
 		$(function() {
@@ -28,16 +38,16 @@
     	<img class="offset-1 col-2" id="id-out-foto" width="3%" height="3%" src="" alt=""/>
     	<br/><br/>
     	
-    	<label for="id-pais">País de nacimiento</label>
-    	<select id="id-pais" name="pais">
-    	<option>----</option>
+    	<label for="categoria">Categoría</label>
+    	<select id="categoria" name="categoria">
+    	<option selected = "selected">----</option>
     	<?php foreach ($categorias as $categoria):?>
     	<option value="<?=$categoria->id?>"><?=$categoria->nombre?></option>
     	<?php endforeach;?>
     	</select>
+    	
     	<br/><br/>
 		<input type="submit"/>
-		<br/>
-		
+		<a href="<?=base_url()?>"><button class="button">Volver</button></a>		
 	</form>
 </div>

@@ -39,7 +39,7 @@ class Categoria_model extends CI_Model {
             $categoria->nombre = $nombre;
             R::store($categoria);
         } 
-        else if ($nombre != null && $categoria =! null) {}
+        //else if ($nombre != null && $categoria =! null) {}
         else {
             $e = ($nombre == null ? new Exception("nulo") : new Exception("Nombre de categoría ya registrado, escoge otro"));
             throw $e;

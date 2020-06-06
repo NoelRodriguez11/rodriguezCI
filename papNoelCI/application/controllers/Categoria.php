@@ -16,7 +16,10 @@ class Categoria extends CI_Controller {
         if(!isRolOK("admin")){
             PRG("Rol inadecuado");
         }
-        frame($this,'categoria/c');
+        
+        $this->load->model('producto_model');
+        $data['productos'] = $this->producto_model->getProductos();
+        frame($this,'categoria/c',$data);
     }
     
     public function cPost() {
@@ -24,8 +27,9 @@ class Categoria extends CI_Controller {
         if(!isRolOK("admin")){
             PRG("Rol inadecuado");
         }
-        $nombre = $_POST['nombre'];
+        
         $this->load->model('categoria_model');
+        $nombre = $_POST['nombre'];
         try {
             $this->categoria_model->crearCategoria($nombre);
             PRG('Categoría creada','categoria/r','success');

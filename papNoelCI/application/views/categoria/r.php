@@ -8,15 +8,18 @@
 	<table class="table">
 		<tr>
 			<th>Nombre</th>
-			<th>Cantidad</th>
+			<th>Productos</th>
 			<th>Acciones</th>
 		</tr>
 		
 			<?php foreach ($categorias as $categoria):?>
 			<tr>
 				<td><?=$categoria->nombre?></td>
-				<td><code>Pendiente de creacion de producto</code></td>
+				
+				<td><?= sizeof($categoria->alias('categoria')->ownProductoList)?></td>
+				
 				<td>
+				<?php if(sizeof($categoria->alias('categoria')->ownProductoList)==0):?>
         				<form action="<?=base_url()?>categoria/dPost" method="post">
         					<input type="hidden" name="id" value="<?=$categoria->id?>">
         					<button onclick="submit()">
@@ -24,6 +27,7 @@
         							width="20">
         					</button>
         				</form>
+        				<?php endif;?>
   
         				<form action="<?=base_url()?>categoria/u" method="get">
         					<input type="hidden" name="id" value="<?=$categoria->id?>">
