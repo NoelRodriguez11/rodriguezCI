@@ -28,8 +28,8 @@
 		
 		<?php else:?>
 		
-		<?php if ($persona->ext_foto != null):?>
-		<td><img src="<?=base_url()?>/assets/img/upload/persona-<?=$persona->id?>.<?=$persona->ext_foto?>" height="80" width="80"></td>
+		<?php if ($persona->foto != null):?>
+		<td><img src="<?=base_url()?>/assets/img/upload/persona-<?=$persona->id?>.<?=$persona->foto?>" height="80" width="80"></td>
 		<?php else:?>
 		<td><img src="<?=base_url()?>/assets/img/vacio.png" height="80" width="80"></td>
 		<?php endif;?>

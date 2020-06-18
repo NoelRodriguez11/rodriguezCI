@@ -3,7 +3,9 @@
 	
 	<?php if($rol == 'auth'):?>
 	
-	<a href="<?=base_url()?>/persona/r"><button>Persona</button></a>
+	<a href="<?=base_url()?>/persona/r"><button>Ficha Personal</button></a>
+	<br><br>
+	<a href="<?=base_url()?>/carro/add"><button>Carrito de la Compra</button></a>
 	
 	<?php elseif ($rol == 'admin'): ?>
 	

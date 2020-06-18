@@ -11,6 +11,10 @@ class Producto_model extends CI_Model
         return R::findAll('producto','ORDER BY nombre ASC');
     }
     
+    public function productoRegistrado($nombre) {
+        return R::findOne('producto', 'nombre=?', [$nombre]);
+    }
+    
     public function crearProducto($ext_foto, $nombre, $stock, $precio, $categoria) {
         
         $ok = ($nombre != null && $stock != null && $precio != null && $categoria != null && R::findOne('producto','nombre=?',[$nombre])==null);
@@ -41,8 +45,7 @@ class Producto_model extends CI_Model
     
     public function actualizarProducto($id, $nombre, $stock, $precio, $categoria) {
         
-        $ok = ($nombre != null && $stock != null && $precio != null && $categoria != null);
-            
+        $ok = ($nombre != null && $stock != null && $precio != null && $categoria != null);            
         if ($ok) {
             $producto = R::load('producto', $id);
             $producto->nombre = $nombre;

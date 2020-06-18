@@ -29,36 +29,34 @@ class Persona_model extends CI_Model {
         
     }
 
-    public function registrarPersona($loginname, $nombre, $pwd, $ext_foto, $altura, $fnac, $pais) {
-        $ok = ($loginname != null && $nombre != null && $pwd != null && $altura != null && $fnac != null && $pais != null && R::findOne('persona','loginname=?',[$loginname])==null);
-
-        if ($ok) {
+    public function registrarPersona($loginname, $pwd, $ext_foto, $nombre, $altura, $fnac, $pais) {
+        if ( $loginname == null || $pwd == null) {
+            throw new Exception("Loginname, nombre o password nulos");
+        }
+        
+        if (R::findOne('persona', 'loginname=?', [$loginname]) != null) {
+            throw new Exception("Loginname duplicado");
+        }
+        
             $persona = R::dispense('persona');
-            
-            $paisNacimiento = R::load('pais', $pais);
-            
             $persona->loginname = $loginname;
-            $persona->nombre = $nombre;
-            $persona->pwd = password_hash($pwd,PASSWORD_DEFAULT);
+            $persona->pwd = password_hash($pwd, PASSWORD_BCRYPT);
             $persona->foto = $ext_foto;
+            $persona->nombre = $nombre;
             $persona->altura = $altura;
             $persona->fnac = $fnac;
-            $persona->nace = $paisNacimiento;
+            if ($pais!=null) $persona->nace= $pais;
             
             $venta = R::dispense('venta');
-            $venta->fechaventa = date('Y-m-d H:i:s');
+            $venta->fecha = date('Y-m-d H:i:s');
             $venta -> ventaencurso = $persona;
             R::store($venta);
             
             $persona->ventaencurso=$venta;
-            
-            R::store($persona);
-        }
         
-        else {
-            $e = (R::findOne('persona','loginname=?',[$loginname])!=null? new Exception("Duplicado") : new Exception("valores nulos"));
-            throw $e;
-        }
+        
+        return R::store($persona);
+        
     }
     
     public function actualizarPersona($id,$loginname, $nombre, $altura, $fnac, $pais) {

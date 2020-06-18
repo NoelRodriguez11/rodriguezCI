@@ -12,9 +12,9 @@ class Anonymous extends CI_Controller {
         $this->load->model('persona_model');
         
         $loginname = isset($_POST['loginname']) ? $_POST['loginname'] : null;
-        $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : null;
         $foto = isset($_FILES['foto']) ? $_FILES['foto'] : null;
+        $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $altura = isset($_POST['altura']) ? $_POST['altura'] : null;
         $fnac = isset($_POST['fnac']) ? $_POST['fnac'] : null;
         $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
@@ -29,32 +29,30 @@ class Anonymous extends CI_Controller {
             $this->load->model('persona_model');
             $this->load->model('pais_model');
            
-            if ($pais == -1) {$id = $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $ext_foto, $altura, $fnac, null);
+            if ($pais == -1) {throw new Exception("País no especificado");
             }
             
-            else {
-                $id = $this->persona_model->registrarPersona($loginname, $nombre, $pwd, $ext_foto, $altura, $fnac, $this->pais_model->getPaisById($pais));
-            }
+            try {
             
+                $id = $this->persona_model->registrarPersona($loginname, $pwd, $ext_foto, $nombre, $altura, $fnac, $this->pais_model->getPaisById($pais));
+            }
+            catch (Exception $e) {
+                throw new Exception("Usuario ya existente");
+            }
             
             if($ext_foto != null) {
-                $path_img = 'assets/img/upload/';
-                $file_name = 'persona-' . $id . '.' . $ext_foto;
-                copy($foto['tmp_name'] , $path_img . $file_name);
+                $file_name = 'persona' . '-'. $id . '.'. $ext_foto;
+                $carpeta = "assets/img/upload/";
+               
+                copy($foto['tmp_name'], $carpeta . $file_name);
             }
      
-            session_start();
-            $_SESSION['_msg']['texto'] = "Usuario registrado con éxito";
-            $_SESSION['_msg']['uri'] = '';
-            redirect(base_url() . 'msg');
+            PRG('Usuario creado correctamente.', 'home', 'success');
             
         } 
         
         catch (Exception $e) {
-            session_start();
-            $_SESSION['_msg']['texto'] = $e->getMessage();
-            $_SESSION['_msg']['uri'] = 'anonymous/registrar';
-            redirect(base_url() . 'msg');
+            PRG($e->getMessage(), '');
         }
     }
 
@@ -111,6 +109,25 @@ class Anonymous extends CI_Controller {
             $data['msg'] = "Base de Datos Creada";
         }
         frame($this, '_hdu/anonymous/initPost', $data);
+    }
+    
+    //============================== AJAX =================================//
+    
+    private function toJSON($nombre) {
+        $data =[];
+        $this->load->model('producto_model');
+        if($this->producto_model->productoRegistrado($nombre) != null) {
+            $data["registrado"] = 1;
+        }
+        else {
+            $data["registrado"] = 0;
+        }
+        return json_encode($data);
+    }
+    
+    public function avisoAJAX() {
+        $data['productoNombre'] = $_POST['productoNombre'];
+        echo $this->toJSON($data['productoNombre']);
     }
 }
 ?>

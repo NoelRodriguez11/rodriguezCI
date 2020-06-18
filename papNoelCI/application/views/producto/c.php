@@ -1,10 +1,41 @@
 <div class="container">
 	<h1>Nuevo Producto</h1>
 	
+	<script type="text/javascript">
+	function mostrar(respuestaAJAX) {
+		if (json["registrado"] == 1) {
+			var texto = "Producto Registrado";
+			document.getElementById("alerta").style="display:inline";
+			document.getElementById("productoNombre").classList.add("bg-warning");
+    		document.getElementById("alerta").innerHTML=texto;
+	}
+		else {
+			document.getElementById("alerta").innerHTML='';
+			document.getElementById("productoNombre").classList.remove('bg-warning');
+		}	
+	}
+	
+	function lanzar() {
+		url = "http://localhost/papCI-master/papNoelCI/producto/avisoAJAX"
+		x = new XMLHttpRequest();
+		x.open("POST", url, true);
+		x.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+		x.send(
+				"productoNombre="+document.getElementById('productoNombre').value);
+		x.onreadystatechange=function() {
+			if (x.readyState==4 && x.status==200) {
+				mostrar(x.responseText);
+			}
+			//--disable-web-security --disable-gpu --user-data-dir=C:\Windows\Temp
+		}
+		}
+	}
+	</script>
+	
 	<form action="<?=base_url()?>producto/cPost" class="form" method="post" enctype="multipart/form-data">
 
 		Nombre
-		<input type="text" name="nombre" autofocus="autofocus"/>
+		<input type="text" name="nombre" id="productoNombre" onkeyup="lanzar()"/><div id="alerta" style="display:none;"></div>
 		<br/>
 		
 		Stock
